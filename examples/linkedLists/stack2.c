@@ -11,6 +11,19 @@ struct stack {
     struct elt *head;
 };
 
+struct stack *
+stackCreate(void)
+{
+    struct stack *s;
+
+    s = malloc(sizeof(struct stack));
+    assert(s);
+
+    s->head = 0;
+
+    return s;
+}
+
 void
 stackPush(struct stack *s, int value)
 {
@@ -57,24 +70,38 @@ stackPrint(const struct stack *s) {
     putchar('\n');
 }
 
+/* free a stack and all its elements */
+void stackDestroy(struct stack *s)
+{
+    while(!stackEmpty(s)) {
+        stackPop(s);
+    }
+
+    free(s);
+}
+
 int
 main(int argc, char **argv)
 {
     int i;
-    struct stack s;
+    struct stack *s;
 
-    s.head = 0;
+    s = stackCreate();
+
+    s->head = 0;
 
     for(i = 0; i < 5; i++) {
         printf("push %d\n", i);
-        stackPush(&s, i);
-        stackPrint(&s);
+        stackPush(s, i);
+        stackPrint(s);
     }
 
-    while(!stackEmpty(&s)) {
-        printf("pop gets %d\n", stackPop(&s));
-        stackPrint(&s);
+    while(!stackEmpty(s)) {
+        printf("pop gets %d\n", stackPop(s));
+        stackPrint(s);
     }
+
+    stackDestroy(s);
 
     return 0;
 }

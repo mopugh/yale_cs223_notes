@@ -63,6 +63,15 @@ stackPrint(const Stack *s)
     putchar('\n');
 }
 
+/* free a stack and all its elements */
+void
+stackDestroy(Stack *s)
+{
+    while(!stackEmpty(s)) {
+        stackPop(s);
+    }
+}
+
 int
 main(int argc, char **argv)
 {
@@ -81,6 +90,8 @@ main(int argc, char **argv)
         printf("pop gets %d\n", stackPop(&s));
         stackPrint(&s);
     }
+
+    stackDestroy(&s);
 
     return 0;
 }
