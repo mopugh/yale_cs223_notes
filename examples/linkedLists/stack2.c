@@ -70,6 +70,7 @@ stackPrint(const struct stack *s) {
     putchar('\n');
 }
 
+
 /* free a stack and all its elements */
 void stackDestroy(struct stack *s)
 {
@@ -78,6 +79,38 @@ void stackDestroy(struct stack *s)
     }
 
     free(s);
+}
+
+void
+stackPrintReverse(const struct stack *s)
+{
+    struct stack *s2;
+    s2 = stackCreate();
+
+    struct elt *e;
+
+    for(e = s->head; e != 0; e = e->next) {
+        stackPush(s2, e->value);
+    }
+
+    stackPrint(s2);
+    stackDestroy(s2);
+}
+
+void
+stackHelper(const struct elt *e)
+{
+    if(e != 0) {
+        stackHelper(e->next);
+        printf("%d ", e->value);
+    }
+}
+
+void
+stackPrintReverseRecursive(const struct stack *s)
+{
+    stackHelper(s->head);
+    putchar('\n');
 }
 
 int
@@ -95,6 +128,11 @@ main(int argc, char **argv)
         stackPush(s, i);
         stackPrint(s);
     }
+
+    printf("Print reverse: ");
+    stackPrintReverse(s);
+    printf("Print reverse recursive: ");
+    stackPrintReverseRecursive(s);
 
     while(!stackEmpty(s)) {
         printf("pop gets %d\n", stackPop(s));
