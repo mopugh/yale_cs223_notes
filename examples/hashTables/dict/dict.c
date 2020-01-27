@@ -165,7 +165,7 @@ DictDelete(Dict d, const char *key)
 
     for(prev = &(d->table[hash_function(key) % d->size]);
         *prev != 0;
-        prev = &((*prev)->key, key)) {
+        prev = &((*prev)->next)) {
         if(!strcmp((*prev)->key, key)) {
             // got it
             e = *prev;
